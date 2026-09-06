@@ -25,10 +25,21 @@ addresses = soup.find_all(name="address")
 address = [ad.getText(strip=True) for ad in addresses]
 
 chrome_options = webdriver.ChromeOptions()
-chrome_options.add_experimental_option("detach", True)
+
+chrome_options.binary_location = "/usr/bin/google-chrome"
+
+chrome_options.add_argument("--headless=new")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--disable-software-rasterizer")
+chrome_options.add_argument("--disable-extensions")
+chrome_options.add_argument("--window-size=1920,1080")
 driver = webdriver.Chrome(options=chrome_options)
 
-for n in range(len(address)):
+
+count = min (len(address), len(prices), len(links))
+for n in range(count):
     driver.get(google_form)
 
     sleep(2)
